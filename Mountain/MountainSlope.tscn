@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 409.077, 10.3491 )
+
+[node name="MountainSlope" type="Area2D"]
+monitorable = false
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionSlope" type="CollisionShape2D" parent="."]
+position = Vector2( 543.517, 1386.65 )
+shape = SubResource( 1 )
