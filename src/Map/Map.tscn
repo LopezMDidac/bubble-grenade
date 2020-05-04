@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/Map/StaticSolid.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/Background/Background.png" type="Texture" id=2]
+
+
+[node name="Map" type="Node2D"]
+
+[node name="Floor" parent="." instance=ExtResource( 1 )]
+position = Vector2( 525.006, 1782.92 )
+rotation = -1.5708
+collision_type = 0
+
+[node name="WallLeft" parent="." instance=ExtResource( 1 )]
+position = Vector2( 109.377, 923.905 )
+scale = Vector2( 1, 2 )
+
+[node name="RoofLeft" parent="." instance=ExtResource( 1 )]
+position = Vector2( 305.509, 237.432 )
+rotation = 0.785398
+
+[node name="Roof" parent="." instance=ExtResource( 1 )]
+position = Vector2( 538.555, 185.649 )
+rotation = 1.5708
+
+[node name="RoofRight" parent="." instance=ExtResource( 1 )]
+position = Vector2( 750.15, 221.803 )
+rotation = -0.785398
+
+[node name="WallRight" parent="." instance=ExtResource( 1 )]
+position = Vector2( 964.854, 1174.62 )
+rotation = 3.14159
+scale = Vector2( 1, 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+centered = false

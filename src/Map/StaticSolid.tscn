@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://src/Map/StaticSolid.gd" type="Script" id=1]
+[ext_resource path="res://src/Map/hit.wav" type="AudioStream" id=2]
+
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 507.726, 10 )
+
+[node name="StaticSolid" type="StaticBody2D"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+margin_left = -14.0539
+margin_top = -507.326
+margin_right = 9.94611
+margin_bottom = 507.674
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WallCollision" type="CollisionShape2D" parent="."]
+position = Vector2( 0.050827, 0.0227356 )
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[node name="Hit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 2 )

@@ -1,20 +1,28 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=17 format=2]
 
-[ext_resource path="res://Rainbow/Rainbow.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Map/Map.tscn" type="PackedScene" id=2]
-[ext_resource path="res://GamePlay/GamePlay.gd" type="Script" id=3]
-[ext_resource path="res://Cannon/Cannon.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Mountain/MountainSlope.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Font/Penguin-Regular.ttf" type="DynamicFontData" id=6]
-[ext_resource path="res://HUD/HUD.gd" type="Script" id=7]
-[ext_resource path="res://Ball/ball_energy.wav" type="AudioStream" id=8]
-[ext_resource path="res://Laser/Laser.gd" type="Script" id=9]
-[ext_resource path="res://GameMusic.wav" type="AudioStream" id=10]
+[ext_resource path="res://src/Rainbow/Rainbow.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/Map/Map.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/GamePlay/GamePlay.gd" type="Script" id=3]
+[ext_resource path="res://src/Cannon/Cannon.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/Mountain/MountainSlope.tscn" type="PackedScene" id=5]
+[ext_resource path="res://resources/Font/Penguin-Regular.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://src/HUDLayer/HUD.gd" type="Script" id=7]
+[ext_resource path="res://src/Ball/ball_energy.wav" type="AudioStream" id=8]
+[ext_resource path="res://src/Laser/Laser.gd" type="Script" id=9]
+[ext_resource path="res://resources/Sound/GameMusic.wav" type="AudioStream" id=10]
+[ext_resource path="res://src/Background/light.png" type="Texture" id=11]
+[ext_resource path="res://src/Background/baground_image.png" type="Texture" id=12]
+[ext_resource path="res://src/Background/Background.gd" type="Script" id=13]
 
-[sub_resource type="Gradient" id=1]
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 1016.04, 817.591, 0, 0, 0, 0, 871.835, 760.669, 0, 0, 0, 0, 754.196, 707.542, 0, 0, 0, 0, 625.173, 692.363, 0, 0, 0, 0, 492.356, 688.568, 0, 0, 0, 0, 367.128, 711.337, 0, 0, 0, 0, 241.9, 730.311, 0, 0, 0, 0, 143.235, 764.464, 0, 0, 0, 0, 6.62256, 787.233 )
+}
+
+[sub_resource type="Gradient" id=2]
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=3]
 size = 60
 outline_size = 2
 outline_color = Color( 0.556863, 0.498039, 0.854902, 1 )
@@ -22,61 +30,77 @@ font_data = ExtResource( 6 )
 
 [node name="Game" type="Node2D"]
 
-[node name="Background" type="CanvasLayer" parent="."]
+[node name="BackgroundLayer" type="CanvasLayer" parent="."]
 layer = -1
+script = ExtResource( 13 )
 
-[node name="BackgroundColor" type="ColorRect" parent="Background"]
+[node name="AmbientLight" type="CanvasModulate" parent="BackgroundLayer"]
+color = Color( 0, 0, 0, 1 )
+
+[node name="Inside" type="Sprite" parent="BackgroundLayer"]
+position = Vector2( 21.8993, 21.8993 )
+texture = ExtResource( 12 )
+centered = false
+
+[node name="BackgroundColor" type="ColorRect" parent="BackgroundLayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 0.168396
-margin_top = 0.0819967
-margin_right = 0.168457
-margin_bottom = 0.0820312
-color = Color( 0.247059, 0.231373, 0.32549, 1 )
+margin_bottom = -1736.0
+color = Color( 0.239216, 0.231373, 0.278431, 1 )
 __meta__ = {
 "_edit_group_": true,
 "_edit_use_anchors_": false
 }
 
-[node name="ColorRect" type="ColorRect" parent="Background"]
-anchor_right = 1.0
-margin_bottom = 133.0
-color = Color( 0.164706, 0.160784, 0.203922, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Skywalker" type="Path2D" parent="BackgroundLayer"]
+curve = SubResource( 1 )
 
-[node name="GamePlay" type="CanvasLayer" parent="."]
+[node name="Moon" type="PathFollow2D" parent="BackgroundLayer/Skywalker"]
+position = Vector2( 1016.04, 817.591 )
+rotation = -2.76564
+loop = false
+
+[node name="Moon" type="Light2D" parent="BackgroundLayer/Skywalker/Moon"]
+position = Vector2( 3.3103, 12.762 )
+rotation = 2.76567
+scale = Vector2( 0.497683, 0.480349 )
+texture = ExtResource( 11 )
+color = Color( 0.992157, 0.992157, 0.984314, 1 )
+range_layer_min = -1
+
+[node name="GamePlayLayer" type="CanvasLayer" parent="."]
 script = ExtResource( 3 )
 
-[node name="Map" parent="GamePlay" instance=ExtResource( 2 )]
+[node name="Map" parent="GamePlayLayer" instance=ExtResource( 2 )]
 
-[node name="Rainbow" parent="GamePlay" instance=ExtResource( 1 )]
-position = Vector2( 544.384, 482.435 )
+[node name="Rainbow" parent="GamePlayLayer" instance=ExtResource( 1 )]
+visible = false
+position = Vector2( 537.703, 565.944 )
 
-[node name="MountainSlope" parent="GamePlay" instance=ExtResource( 5 )]
+[node name="MountainSlope" parent="GamePlayLayer" instance=ExtResource( 5 )]
+position = Vector2( -3.65018, 382.284 )
 
-[node name="Cannon" parent="GamePlay" instance=ExtResource( 4 )]
+[node name="Cannon" parent="GamePlayLayer" instance=ExtResource( 4 )]
 
-[node name="Laser" type="Line2D" parent="GamePlay"]
+[node name="Laser" type="Line2D" parent="GamePlayLayer"]
 width = 5.0
 default_color = Color( 0.988235, 0.988235, 0.992157, 0.317647 )
-gradient = SubResource( 1 )
+gradient = SubResource( 2 )
 joint_mode = 2
 end_cap_mode = 2
 antialiased = true
 script = ExtResource( 9 )
 
-[node name="PlayerEnergy" type="AudioStreamPlayer" parent="GamePlay"]
+[node name="PlayerEnergy" type="AudioStreamPlayer" parent="GamePlayLayer"]
 stream = ExtResource( 8 )
 
-[node name="EnvironmentMusic" type="AudioStreamPlayer" parent="GamePlay"]
+[node name="EnvironmentMusic" type="AudioStreamPlayer" parent="GamePlayLayer"]
 stream = ExtResource( 10 )
 
-[node name="HUD" type="CanvasLayer" parent="."]
+[node name="HUDLayer" type="CanvasLayer" parent="."]
 script = ExtResource( 7 )
 
-[node name="ScoreLayout" type="MarginContainer" parent="HUD"]
+[node name="ScoreLayout" type="MarginContainer" parent="HUDLayer"]
 anchor_right = 1.0
 margin_left = 60.0
 margin_top = 71.0
@@ -87,23 +111,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Columns" type="HBoxContainer" parent="HUD/ScoreLayout"]
+[node name="Columns" type="HBoxContainer" parent="HUDLayer/ScoreLayout"]
 margin_right = 960.0
 margin_bottom = 61.0
 
-[node name="Score" type="Label" parent="HUD/ScoreLayout/Columns"]
+[node name="Score" type="Label" parent="HUDLayer/ScoreLayout/Columns"]
 margin_right = 47.0
 margin_bottom = 61.0
 size_flags_horizontal = 2
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
 text = "0"
 valign = 3
 
-[node name="BestScore" type="Label" parent="HUD/ScoreLayout/Columns"]
+[node name="BestScore" type="Label" parent="HUDLayer/ScoreLayout/Columns"]
 margin_left = 913.0
 margin_right = 960.0
 margin_bottom = 61.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
 text = "0"
-[connection signal="on_game_over" from="GamePlay" to="HUD" method="_on_GamePlay_on_game_over"]
-[connection signal="on_rock_destroyed" from="GamePlay" to="HUD" method="_on_GamePlay_on_rock_destroyed"]
+[connection signal="on_game_over" from="GamePlayLayer" to="HUDLayer" method="_on_GamePlay_on_game_over"]
+[connection signal="on_rock_destroyed" from="GamePlayLayer" to="HUDLayer" method="_on_GamePlay_on_rock_destroyed"]
+[connection signal="on_rock_destroyed" from="GamePlayLayer" to="BackgroundLayer" method="_on_GamePlay_on_rock_destroyed"]
